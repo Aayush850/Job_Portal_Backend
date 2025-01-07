@@ -3,9 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { JobType } from '../dto/job-type-enum';
 import { Status } from '../dto/job-status-enum';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Job {
@@ -35,4 +37,7 @@ export class Job {
 
   @Column({ type: 'enum', enum: Status })
   status: Status;
+
+  @ManyToOne(() => User, (user) => user.jobs, { nullable: false })
+  user: User;
 }

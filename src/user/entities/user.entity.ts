@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { userRole } from '../dto/user-role-enum';
+import { Job } from 'src/jobs/entities/job.entity';
 
 @Entity()
 export class User {
@@ -35,4 +37,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Job, (job) => job.user)
+  jobs: Job[];
 }

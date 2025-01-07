@@ -1,9 +1,12 @@
-import { IsDate, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 import { JobType } from './job-type-enum';
 import { Status } from './job-status-enum';
 
 export class CreateJobDto {
+  @IsInt()
+  userId: number;
+
   @IsNotEmpty()
   title: string;
 

@@ -4,19 +4,42 @@ import { UpdateJobDto } from './dto/update-job.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Job } from './entities/job.entity';
 import { Repository } from 'typeorm';
+import { JobType } from './dto/job-type-enum';
+import { Status } from './dto/job-status-enum';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class JobsService {
   constructor(
     @InjectRepository(Job) private readonly jobRepository: Repository<Job>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
   async create(createJobDto: CreateJobDto) {
-    const job = this.jobRepository.create(createJobDto);
+    const user = await this.userRepository.findOne({
+      where: { id: createJobDto.userId },
+    });
+    const job = this.jobRepository.create({
+      ...createJobDto,
+      user,
+    });
     return this.jobRepository.save(job);
   }
 
-  findAll() {
-    return this.jobRepository.find();
+  async findAll(query: {
+    employment_type?: JobType;
+    limit: number;
+    page: number;
+    status?: Status;
+  }) {
+    const { employment_type, status, limit, page } = query;
+    const data = await this.jobRepository.find({
+      where: { employment_type, status },
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    const totalCount = await this.jobRepository.count();
+    const totalPages = Math.ceil(totalCount / limit);
+    return { data, totalPages };
   }
 
   async findOne(id: number) {
