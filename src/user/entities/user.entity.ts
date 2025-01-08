@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { userRole } from '../dto/user-role-enum';
 import { Job } from 'src/jobs/entities/job.entity';
+import { Application } from 'src/applications/entities/application.entity';
 
 @Entity()
 export class User {
@@ -40,4 +41,7 @@ export class User {
 
   @OneToMany(() => Job, (job) => job.user)
   jobs: Job[];
+
+  @OneToMany(() => Application, (application) => application.user)
+  application: Application;
 }

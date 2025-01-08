@@ -4,10 +4,12 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { JobType } from '../dto/job-type-enum';
 import { Status } from '../dto/job-status-enum';
 import { User } from 'src/user/entities/user.entity';
+import { Application } from 'src/applications/entities/application.entity';
 
 @Entity()
 export class Job {
@@ -40,4 +42,7 @@ export class Job {
 
   @ManyToOne(() => User, (user) => user.jobs, { nullable: false })
   user: User;
+
+  @OneToMany(() => Application, (application) => application.job)
+  application: Application;
 }
