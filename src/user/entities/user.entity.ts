@@ -5,10 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  OneToOne,
 } from 'typeorm';
 import { userRole } from '../dto/user-role-enum';
 import { Job } from 'src/jobs/entities/job.entity';
 import { Application } from 'src/applications/entities/application.entity';
+import { Resume } from 'src/resumes/entities/resume.entity';
+import { UserSkill } from 'src/user-skill/entities/user-skill.entity';
 
 @Entity()
 export class User {
@@ -44,4 +47,10 @@ export class User {
 
   @OneToMany(() => Application, (application) => application.user)
   application: Application;
+
+  @OneToOne(() => Resume, (resume) => resume.user)
+  resume: Resume;
+
+  @OneToMany(() => UserSkill, (user_skill) => user_skill.user_id)
+  user_skill: UserSkill;
 }

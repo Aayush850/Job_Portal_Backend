@@ -5,6 +5,10 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JobsModule } from './jobs/jobs.module';
 import { ApplicationsModule } from './applications/applications.module';
+import { ResumesModule } from './resumes/resumes.module';
+import { SkillsModule } from './skills/skills.module';
+import { UserSkillModule } from './user-skill/user-skill.module';
+import { JobSkillModule } from './job-skill/job-skill.module';
 
 @Module({
   imports: [
@@ -22,6 +26,10 @@ import { ApplicationsModule } from './applications/applications.module';
     UserModule,
     JobsModule,
     ApplicationsModule,
+    ResumesModule,
+    SkillsModule,
+    UserSkillModule,
+    JobSkillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
